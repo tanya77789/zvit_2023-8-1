@@ -1,0 +1,758 @@
+<!DOCTYPE html>
+<html lang="uk">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Звіт за березень · Група 2023-6/1</title>
+<link href="https://fonts.googleapis.com/css2?family=Unbounded:wght@400;700;900&family=Manrope:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+  :root {
+    --purple:  #7F77DD;
+    --purple-l:#EEEDFE;
+    --purple-d:#3C3489;
+    --teal:    #1D9E75;
+    --teal-l:  #E1F5EE;
+    --teal-d:  #085041;
+    --coral:   #D85A30;
+    --coral-l: #FAECE7;
+    --amber:   #EF9F27;
+    --amber-l: #FAEEDA;
+    --blue:    #378ADD;
+    --blue-l:  #E6F1FB;
+    --bg:      #F7F6F2;
+    --ink:     #1C1B18;
+    --muted:   #6B6A63;
+    --border:  #E2E0D8;
+  }
+
+  html { scroll-behavior: smooth; }
+
+  body {
+    font-family: 'Manrope', sans-serif;
+    background: var(--bg);
+    color: var(--ink);
+    min-height: 100vh;
+    overflow-x: hidden;
+  }
+
+  /* ── HERO ── */
+  .hero {
+    min-height: 100svh;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    padding: clamp(2rem, 8vw, 6rem) clamp(1.5rem, 6vw, 5rem);
+    position: relative;
+    overflow: hidden;
+    background: var(--ink);
+  }
+
+  .hero-noise {
+    position: absolute; inset: 0;
+    background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.04'/%3E%3C/svg%3E");
+    background-size: 200px;
+    pointer-events: none;
+  }
+
+  .hero-accent {
+    position: absolute;
+    width: 60vw; height: 60vw;
+    max-width: 600px; max-height: 600px;
+    border-radius: 50%;
+    background: radial-gradient(circle, rgba(127,119,221,0.25) 0%, transparent 70%);
+    top: -20%; right: -15%;
+    pointer-events: none;
+  }
+
+  .hero-accent2 {
+    position: absolute;
+    width: 40vw; height: 40vw;
+    max-width: 400px; max-height: 400px;
+    border-radius: 50%;
+    background: radial-gradient(circle, rgba(29,158,117,0.2) 0%, transparent 70%);
+    bottom: -10%; left: -10%;
+    pointer-events: none;
+  }
+
+  .hero-tag {
+    display: inline-flex; align-items: center; gap: 8px;
+    background: rgba(255,255,255,0.08);
+    border: 1px solid rgba(255,255,255,0.12);
+    border-radius: 100px;
+    padding: 6px 16px;
+    font-size: 12px; font-weight: 600;
+    color: rgba(255,255,255,0.6);
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    width: fit-content;
+    margin-bottom: 2rem;
+    opacity: 0; animation: fadeUp 0.6s 0.1s ease forwards;
+  }
+
+  .hero-dot {
+    width: 6px; height: 6px; border-radius: 50%;
+    background: var(--teal);
+    animation: pulse 2s infinite;
+  }
+
+  @keyframes pulse {
+    0%,100% { opacity:1; transform: scale(1); }
+    50% { opacity:0.5; transform: scale(1.4); }
+  }
+
+  .hero-title {
+    font-family: 'Unbounded', sans-serif;
+    font-size: clamp(2.8rem, 8vw, 7rem);
+    font-weight: 900;
+    line-height: 1;
+    color: #fff;
+    margin-bottom: 1.5rem;
+    opacity: 0; animation: fadeUp 0.7s 0.25s ease forwards;
+  }
+
+  .hero-title span {
+    background: linear-gradient(135deg, var(--purple) 0%, var(--teal) 100%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+  }
+
+  .hero-sub {
+    font-size: clamp(1rem, 2.5vw, 1.25rem);
+    color: rgba(255,255,255,0.5);
+    max-width: 520px;
+    line-height: 1.7;
+    margin-bottom: 3rem;
+    opacity: 0; animation: fadeUp 0.7s 0.4s ease forwards;
+  }
+
+  .hero-scroll {
+    display: flex; align-items: center; gap: 10px;
+    color: rgba(255,255,255,0.35);
+    font-size: 13px;
+    cursor: pointer;
+    opacity: 0; animation: fadeUp 0.7s 0.6s ease forwards;
+    transition: color 0.2s;
+    width: fit-content;
+  }
+  .hero-scroll:hover { color: rgba(255,255,255,0.7); }
+
+  .scroll-arrow {
+    width: 36px; height: 36px;
+    border: 1px solid rgba(255,255,255,0.15);
+    border-radius: 50%;
+    display: flex; align-items: center; justify-content: center;
+    animation: bounce 2s infinite;
+  }
+
+  @keyframes bounce {
+    0%,100% { transform: translateY(0); }
+    50% { transform: translateY(5px); }
+  }
+
+  @keyframes fadeUp {
+    from { opacity:0; transform: translateY(24px); }
+    to   { opacity:1; transform: translateY(0); }
+  }
+
+  /* ── STATS ROW ── */
+  .stats {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 0;
+    border-bottom: 1px solid var(--border);
+  }
+
+  .stat {
+    padding: clamp(1.5rem, 4vw, 2.5rem) clamp(1.5rem, 4vw, 3rem);
+    border-right: 1px solid var(--border);
+    opacity: 0;
+    transform: translateY(20px);
+    transition: opacity 0.5s ease, transform 0.5s ease;
+  }
+  .stat:last-child { border-right: none; }
+  .stat.visible { opacity:1; transform: none; }
+
+  .stat-num {
+    font-family: 'Unbounded', sans-serif;
+    font-size: clamp(2rem, 5vw, 3.5rem);
+    font-weight: 900;
+    line-height: 1;
+    margin-bottom: 6px;
+  }
+
+  .stat-label {
+    font-size: 13px;
+    color: var(--muted);
+    font-weight: 500;
+  }
+
+  /* ── SECTION ── */
+  .section {
+    padding: clamp(3rem, 8vw, 6rem) clamp(1.5rem, 6vw, 5rem);
+  }
+
+  .section-header {
+    display: flex; align-items: baseline; gap: 16px;
+    margin-bottom: clamp(2rem, 5vw, 3.5rem);
+  }
+
+  .section-tag {
+    font-family: 'Unbounded', sans-serif;
+    font-size: 10px;
+    font-weight: 700;
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    padding: 5px 12px;
+    border-radius: 100px;
+  }
+
+  .tag-theory   { background: var(--purple-l); color: var(--purple-d); }
+  .tag-practice { background: var(--coral-l);  color: #712B13; }
+
+  .section-title {
+    font-family: 'Unbounded', sans-serif;
+    font-size: clamp(1.4rem, 3.5vw, 2.2rem);
+    font-weight: 700;
+    line-height: 1.2;
+  }
+
+  /* ── CARDS GRID ── */
+  .cards {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(min(100%, 280px), 1fr));
+    gap: 16px;
+  }
+
+  .card {
+    background: #fff;
+    border: 1px solid var(--border);
+    border-radius: 20px;
+    padding: clamp(1.25rem, 3vw, 2rem);
+    cursor: pointer;
+    transition: transform 0.25s ease, box-shadow 0.25s ease, border-color 0.25s ease;
+    opacity: 0;
+    transform: translateY(30px);
+    position: relative;
+    overflow: hidden;
+  }
+
+  .card.visible {
+    opacity: 1;
+    transform: translateY(0);
+  }
+
+  .card:hover {
+    transform: translateY(-6px);
+    box-shadow: 0 20px 40px rgba(0,0,0,0.08);
+  }
+
+  .card-glow {
+    position: absolute;
+    width: 120px; height: 120px;
+    border-radius: 50%;
+    top: -40px; right: -40px;
+    opacity: 0.15;
+    pointer-events: none;
+    transition: opacity 0.3s;
+  }
+  .card:hover .card-glow { opacity: 0.3; }
+
+  .card-icon {
+    width: 48px; height: 48px;
+    border-radius: 14px;
+    display: flex; align-items: center; justify-content: center;
+    font-size: 22px;
+    margin-bottom: 1rem;
+    flex-shrink: 0;
+  }
+
+  .card-title {
+    font-family: 'Unbounded', sans-serif;
+    font-size: clamp(0.85rem, 1.8vw, 1rem);
+    font-weight: 700;
+    line-height: 1.3;
+    margin-bottom: 10px;
+  }
+
+  .card-text {
+    font-size: 14px;
+    color: var(--muted);
+    line-height: 1.7;
+  }
+
+  /* ── PRACTICE FEATURE ── */
+  .practice-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 16px;
+  }
+
+  @media (max-width: 640px) {
+    .practice-grid { grid-template-columns: 1fr; }
+    .stats { grid-template-columns: 1fr; }
+    .stat { border-right: none; border-bottom: 1px solid var(--border); }
+    .stat:last-child { border-bottom: none; }
+  }
+
+  .practice-card-big {
+    background: var(--ink);
+    color: #fff;
+    border-radius: 20px;
+    padding: clamp(1.5rem, 3vw, 2.5rem);
+    grid-column: span 2;
+    position: relative;
+    overflow: hidden;
+    opacity: 0; transform: translateY(30px);
+    transition: opacity 0.5s ease, transform 0.5s ease, box-shadow 0.25s ease;
+  }
+
+  @media (max-width: 640px) {
+    .practice-card-big { grid-column: span 1; }
+  }
+
+  .practice-card-big.visible { opacity:1; transform: none; }
+  .practice-card-big:hover { box-shadow: 0 24px 48px rgba(0,0,0,0.2); }
+
+  .relay-track {
+    display: flex;
+    align-items: center;
+    gap: 0;
+    margin: 1.5rem 0;
+    flex-wrap: wrap;
+    gap: 6px;
+  }
+
+  .relay-person {
+    display: flex; flex-direction: column; align-items: center; gap: 6px;
+    opacity: 0;
+    transition: opacity 0.4s ease, transform 0.4s ease;
+    transform: scale(0.8);
+  }
+
+  .relay-person.lit {
+    opacity: 1; transform: scale(1);
+  }
+
+  .relay-avatar {
+    width: 44px; height: 44px;
+    border-radius: 50%;
+    display: flex; align-items: center; justify-content: center;
+    font-size: 18px;
+    border: 2px solid rgba(255,255,255,0.15);
+    transition: border-color 0.3s, background 0.3s;
+  }
+
+  .relay-person.active .relay-avatar {
+    border-color: var(--teal);
+    background: rgba(29,158,117,0.2);
+    box-shadow: 0 0 16px rgba(29,158,117,0.4);
+  }
+
+  .relay-name {
+    font-size: 10px;
+    color: rgba(255,255,255,0.4);
+    font-weight: 600;
+  }
+
+  .relay-arrow {
+    color: rgba(255,255,255,0.2);
+    font-size: 18px;
+    margin: 0 2px;
+    align-self: center;
+    padding-bottom: 16px;
+  }
+
+  .relay-btn {
+    display: inline-flex; align-items: center; gap: 8px;
+    background: var(--teal);
+    color: #fff;
+    border: none;
+    border-radius: 100px;
+    padding: 10px 20px;
+    font-size: 13px;
+    font-weight: 600;
+    font-family: 'Manrope', sans-serif;
+    cursor: pointer;
+    margin-top: 0.5rem;
+    transition: background 0.2s, transform 0.15s;
+  }
+  .relay-btn:hover { background: #1D8A65; transform: scale(1.03); }
+  .relay-btn:active { transform: scale(0.97); }
+
+  /* ── RESULT BANNER ── */
+  .result-banner {
+    margin: 0 clamp(1.5rem, 6vw, 5rem);
+    background: linear-gradient(135deg, var(--purple-d) 0%, #1a1740 100%);
+    border-radius: 24px;
+    padding: clamp(2rem, 5vw, 3.5rem);
+    color: #fff;
+    margin-bottom: clamp(3rem, 8vw, 6rem);
+    position: relative;
+    overflow: hidden;
+    opacity: 0; transform: translateY(30px);
+    transition: opacity 0.6s ease, transform 0.6s ease;
+  }
+
+  .result-banner.visible { opacity:1; transform: none; }
+
+  .result-banner-glow {
+    position: absolute;
+    width: 300px; height: 300px;
+    border-radius: 50%;
+    background: radial-gradient(circle, rgba(127,119,221,0.4), transparent 70%);
+    top: -100px; right: -50px;
+    pointer-events: none;
+  }
+
+  .result-label {
+    font-size: 10px;
+    font-weight: 700;
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    color: var(--purple);
+    margin-bottom: 1rem;
+    font-family: 'Unbounded', sans-serif;
+  }
+
+  .result-text {
+    font-size: clamp(1.1rem, 2.5vw, 1.5rem);
+    font-family: 'Unbounded', sans-serif;
+    font-weight: 700;
+    line-height: 1.5;
+    max-width: 600px;
+    position: relative;
+  }
+
+  .result-chips {
+    display: flex; flex-wrap: wrap; gap: 8px;
+    margin-top: 1.5rem;
+    position: relative;
+  }
+
+  .chip {
+    background: rgba(255,255,255,0.1);
+    border: 1px solid rgba(255,255,255,0.15);
+    color: rgba(255,255,255,0.8);
+    border-radius: 100px;
+    padding: 6px 14px;
+    font-size: 12px;
+    font-weight: 500;
+  }
+
+  /* ── FOOTER ── */
+  footer {
+    border-top: 1px solid var(--border);
+    padding: 2rem clamp(1.5rem, 6vw, 5rem);
+    display: flex; justify-content: space-between; align-items: center;
+    flex-wrap: wrap; gap: 12px;
+    font-size: 13px;
+    color: var(--muted);
+  }
+
+  footer strong { color: var(--ink); font-weight: 600; }
+
+  /* ── PROGRESS BAR ── */
+  .progress-bar {
+    position: fixed;
+    top: 0; left: 0;
+    height: 3px;
+    background: linear-gradient(90deg, var(--purple), var(--teal));
+    z-index: 100;
+    transition: width 0.1s linear;
+    border-radius: 0 2px 2px 0;
+  }
+
+  /* ── NAV ── */
+  nav {
+    position: fixed;
+    top: 16px; left: 50%;
+    transform: translateX(-50%);
+    z-index: 99;
+    display: flex; gap: 4px;
+    background: rgba(28,27,24,0.85);
+    backdrop-filter: blur(12px);
+    border: 1px solid rgba(255,255,255,0.08);
+    border-radius: 100px;
+    padding: 6px;
+    opacity: 0;
+    transition: opacity 0.3s;
+  }
+
+  nav.visible { opacity: 1; }
+
+  .nav-btn {
+    background: transparent;
+    border: none;
+    color: rgba(255,255,255,0.5);
+    font-size: 12px;
+    font-weight: 600;
+    font-family: 'Manrope', sans-serif;
+    padding: 6px 16px;
+    border-radius: 100px;
+    cursor: pointer;
+    transition: background 0.2s, color 0.2s;
+    white-space: nowrap;
+  }
+
+  .nav-btn:hover, .nav-btn.active {
+    background: rgba(255,255,255,0.1);
+    color: #fff;
+  }
+
+  /* delays */
+  .card:nth-child(1) { transition-delay: 0.05s; }
+  .card:nth-child(2) { transition-delay: 0.12s; }
+  .card:nth-child(3) { transition-delay: 0.19s; }
+  .card:nth-child(4) { transition-delay: 0.26s; }
+</style>
+</head>
+<body>
+
+<div class="progress-bar" id="progress"></div>
+
+<nav id="nav">
+  <button class="nav-btn active" onclick="scrollTo({top:0,behavior:'smooth'})">Початок</button>
+  <button class="nav-btn" onclick="document.getElementById('theory').scrollIntoView({behavior:'smooth'})">Теорія</button>
+  <button class="nav-btn" onclick="document.getElementById('practice').scrollIntoView({behavior:'smooth'})">Практика</button>
+  <button class="nav-btn" onclick="document.getElementById('result').scrollIntoView({behavior:'smooth'})">Підсумок</button>
+</nav>
+
+<!-- HERO -->
+<section class="hero" id="top">
+  <div class="hero-noise"></div>
+  <div class="hero-accent"></div>
+  <div class="hero-accent2"></div>
+
+  <div class="hero-tag">
+    <div class="hero-dot"></div>
+    Група 2023-6/1 ·
+  </div>
+
+  <h1 class="hero-title">
+    Звіт<br><span>за березень</span>
+  </h1>
+
+  <p class="hero-sub">
+    Протягом 8 занять учні знайомилися з основами будови сучасних вебсайтів — як вони влаштовані «зсередини».
+  </p>
+
+  <div class="hero-scroll" onclick="document.getElementById('stats').scrollIntoView({behavior:'smooth'})">
+    <div class="scroll-arrow">
+      <svg width="14" height="14" viewBox="0 0 14 14" fill="none">
+        <path d="M7 2v10M3 8l4 4 4-4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+      </svg>
+    </div>
+    Гортати далі
+  </div>
+</section>
+
+<!-- STATS -->
+<div class="stats" id="stats">
+  <div class="stat">
+    <div class="stat-num" style="color:var(--purple)">8</div>
+    <div class="stat-label">занять у березні</div>
+  </div>
+  <div class="stat">
+    <div class="stat-num" style="color:var(--teal)">2</div>
+    <div class="stat-label">великі теми теорії</div>
+  </div>
+  <div class="stat">
+    <div class="stat-num" style="color:var(--coral)">5</div>
+    <div class="stat-label">види макетів на практиці</div>
+  </div>
+</div>
+
+<!-- THEORY -->
+<section class="section" id="theory">
+  <div class="section-header">
+    <span class="section-tag tag-theory">Теорія</span>
+    <h2 class="section-title">Цього місяця учні вчилися мислити так, як мислить junior-розробник. </h2>
+  </div>
+
+  <div class="cards">
+    <div class="card" style="--c:var(--purple)" tabindex="0">
+      <div class="card-glow" style="background:var(--purple)"></div>
+      <div class="card-icon" style="background:var(--purple-l)">🧱</div>
+      <div class="card-title">Як організовувати код — BEM</div>
+      <div class="card-text">Система правил для написання акуратного коду. Це як порядок у кімнаті: коли все на своєму місці, легко знайти потрібне і легко щось змінити.</div>
+    </div>
+
+    <div class="card" tabindex="0">
+      <div class="card-glow" style="background:var(--teal)"></div>
+      <div class="card-icon" style="background:var(--teal-l)">🌳</div>
+      <div class="card-title">Як браузер бачить сторінку — DOM</div>
+      <div class="card-text">Структура, за якою браузер читає кожен сайт. Елементи пов'язані як у родинному дереві: батьківські та дочірні, і вони впливають один на одного.</div>
+    </div>
+
+    <div class="card" tabindex="0">
+      <div class="card-glow" style="background:var(--amber)"></div>
+      <div class="card-icon" style="background:var(--amber-l)">✍️</div>
+      <div class="card-title">Самостійна робота та аналіз</div>
+      <div class="card-text">Кожен учень застосував знання самостійно. Потім разом розбирали помилки і знаходили правильні рішення.</div>
+    </div>
+
+    <div class="card" tabindex="0">
+      <div class="card-glow" style="background:var(--blue)"></div>
+      <div class="card-icon" style="background:var(--blue-l)">💡</div>
+      <div class="card-title">Метод трьох площин</div>
+      <div class="card-text">Кожну тему пояснювали через три контексти: природа, людина і суспільство, вебсайт. Щоб учень зрозумів — а не просто запам'ятав.</div>
+    </div>
+  </div>
+</section>
+
+<!-- PRACTICE -->
+<section class="section" id="practice" style="padding-top:0">
+  <div class="section-header">
+    <span class="section-tag tag-practice">Практика</span>
+    <h2 class="section-title">Що робили</h2>
+  </div>
+
+  <div class="practice-grid">
+    <div class="card" tabindex="0">
+      <div class="card-glow" style="background:var(--coral)"></div>
+      <div class="card-icon" style="background:var(--coral-l)">🖥️</div>
+      <div class="card-title">Будували макети сторінок</div>
+      <div class="card-text">Одноколонкові, двоколонкові та триколонкові макети — так, як це роблять справжні веброзробники. BEM та DOM застосовували прямо під час роботи.</div>
+    </div>
+
+    <div class="card" tabindex="0">
+      <div class="card-glow" style="background:var(--teal)"></div>
+      <div class="card-icon" style="background:var(--teal-l)">⚙️</div>
+      <div class="card-title">Позиціонування та обтікання</div>
+      <div class="card-text">Вивчали способи розміщення елементів на сторінці — як змушувати їх займати потрібне місце і взаємодіяти між собою.</div>
+    </div>
+
+    <!-- BIG RELAY CARD -->
+    <div class="practice-card-big" id="relay-card">
+      <div style="position:absolute;inset:0;background:radial-gradient(circle at 80% 50%, rgba(29,158,117,0.15), transparent 60%);pointer-events:none"></div>
+
+      <div style="position:relative">
+        <div style="font-size:10px;font-weight:700;letter-spacing:0.15em;text-transform:uppercase;color:var(--teal);margin-bottom:0.75rem;font-family:'Unbounded',sans-serif">🔄 Формат роботи</div>
+        <div style="font-family:'Unbounded',sans-serif;font-size:clamp(1.1rem,2.5vw,1.5rem);font-weight:700;margin-bottom:0.75rem;line-height:1.3">Робота в режимі естафети</div>
+        <p style="font-size:14px;color:rgba(255,255,255,0.55);line-height:1.7;max-width:480px;margin-bottom:1.5rem">Один учень починав макет, інший підхоплював і продовжував, потім передавав далі — і так по колу. Це вчить читати чужий код і працювати в команді.</p>
+
+        <div class="relay-track" id="relay-track">
+          <div class="relay-person" id="p0">
+            <div class="relay-avatar">👦</div>
+            <div class="relay-name">Матвій</div>
+          </div>
+          <div class="relay-arrow">→</div>
+          <div class="relay-person" id="p1">
+            <div class="relay-avatar">👦</div>
+            <div class="relay-name">Тарас</div>
+          </div>
+          <div class="relay-arrow">→</div>
+          <div class="relay-person" id="p2">
+            <div class="relay-avatar">👦</div>
+            <div class="relay-name">Ілля</div>
+          </div>
+          <div class="relay-arrow">→</div>
+          <div class="relay-person" id="p3">
+            <div class="relay-avatar">👦</div>
+            <div class="relay-name">Давич</div>
+          </div>
+          <div class="relay-arrow">→</div>
+          <div class="relay-person" id="p4">
+            <div class="relay-avatar">👦</div>
+            <div class="relay-name">Остап</div>
+          </div>
+        </div>
+
+        <button class="relay-btn" id="relay-btn" onclick="runRelay()">
+          <svg width="14" height="14" viewBox="0 0 14 14" fill="none"><path d="M3 7l3 3 5-5" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg>
+          Запустити естафету
+        </button>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- RESULT -->
+<div class="result-banner" id="result">
+  <div class="result-banner-glow"></div>
+  <div class="result-label">Результат місяця</div>
+  <div class="result-text">Учень розуміє, як влаштований сайт зсередини, вміє будувати макети і може працювати в команді над спільним проєктом.</div>
+  <div class="result-chips">
+    <span class="chip">BEM-методологія</span>
+    <span class="chip">DOM-дерево</span>
+    <span class="chip">Макети сторінок</span>
+    <span class="chip">Командна робота</span>
+    <span class="chip">Читання чужого коду</span>
+  </div>
+</div>
+
+<footer>
+  <div><strong>Звіт за березень 2024</strong> · Група 2023-6/1</div>
+  <div>8 занять · Веброзробка</div>
+</footer>
+
+<script>
+  // Progress bar
+  window.addEventListener('scroll', () => {
+    const s = document.documentElement;
+    const pct = s.scrollTop / (s.scrollHeight - s.clientHeight) * 100;
+    document.getElementById('progress').style.width = pct + '%';
+    document.getElementById('nav').classList.toggle('visible', s.scrollTop > 80);
+  });
+
+  // Intersection observer
+  const obs = new IntersectionObserver((entries) => {
+    entries.forEach(e => {
+      if (e.isIntersecting) {
+        e.target.classList.add('visible');
+        obs.unobserve(e.target);
+      }
+    });
+  }, { threshold: 0.15 });
+
+  document.querySelectorAll('.stat, .card, .practice-card-big, .result-banner').forEach(el => obs.observe(el));
+
+  // Relay animation
+  let relayRunning = false;
+
+  function runRelay() {
+    if (relayRunning) return;
+    relayRunning = true;
+    const btn = document.getElementById('relay-btn');
+    btn.disabled = true;
+    btn.textContent = 'Естафета йде...';
+
+    const persons = document.querySelectorAll('.relay-person');
+    persons.forEach(p => { p.classList.remove('active'); p.classList.add('lit'); });
+
+    let i = 0;
+    const interval = setInterval(() => {
+      persons.forEach(p => p.classList.remove('active'));
+      if (i < persons.length) {
+        persons[i].classList.add('active');
+        i++;
+      } else {
+        clearInterval(interval);
+        setTimeout(() => {
+          persons.forEach(p => p.classList.remove('active'));
+          btn.disabled = false;
+          btn.innerHTML = '<svg width="14" height="14" viewBox="0 0 14 14" fill="none"><path d="M3 7l3 3 5-5" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg> Повторити';
+          relayRunning = false;
+        }, 600);
+      }
+    }, 700);
+  }
+
+  // Show relay persons on card visible
+  const relayObs = new IntersectionObserver((entries) => {
+    entries.forEach(e => {
+      if (e.isIntersecting) {
+        document.querySelectorAll('.relay-person').forEach((p, i) => {
+          setTimeout(() => p.classList.add('lit'), i * 120);
+        });
+        relayObs.unobserve(e.target);
+      }
+    });
+  }, { threshold: 0.3 });
+  relayObs.observe(document.getElementById('relay-card'));
+</script>
+</body>
+</html>
